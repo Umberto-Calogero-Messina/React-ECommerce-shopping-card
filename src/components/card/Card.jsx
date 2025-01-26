@@ -12,13 +12,14 @@ import {
   StyledTitle
 } from './Card.styles';
 
-const Card = ({ item, addToCart }) => {
+//const Card = ({ item, addToCart }) => {
+const Card = ({ item }) => {
   const [isInCart, setIsInCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = () => {
     setIsInCart(true);
-    addToCart(item);
+    //addToCart(item);
   };
 
   const handleIncrement = () => {
@@ -42,22 +43,20 @@ const Card = ({ item, addToCart }) => {
 
         {!isInCart ? (
           <StyledButton onClick={handleAddToCart}>
-            <img src='./assets/images/icon-add-to-cart.svg' alt='' />
+            <img src='./assets/images/icon-add-to-cart.svg' alt='Add to Cart' />
             Add to Cart
           </StyledButton>
         ) : (
           <StyledButtonActive>
             <StyleButtonImgActive
               src='./assets/images/icon-decrement-quantity.svg'
-              alt=''
+              alt='Decrement Quantity'
               onClick={handleDecrement}
             />
-
             <StyleButtonNumer>{quantity}</StyleButtonNumer>
-
             <StyleButtonImgActive
               src='./assets/images/icon-increment-quantity.svg'
-              alt=''
+              alt='Increment Quantity'
               onClick={handleIncrement}
             />
           </StyledButtonActive>
