@@ -19,20 +19,20 @@ const Shop = () => {
     0
   );
 
-  const addToCart = item => {
-    setCart(prevCart => {
-      const existingItem = prevCart.find(cartItem => cartItem.id === item.id);
-      if (existingItem) {
-        return prevCart.map(cartItem =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
-            : cartItem
-        );
-      } else {
-        return [...prevCart, item];
-      }
-    });
-  };
+  // const addToCart = item => {
+  //   setCart(prevCart => {
+  //     const existingItem = prevCart.find(cartItem => cartItem.id === item.id);
+  //     if (existingItem) {
+  //       return prevCart.map(cartItem =>
+  //         cartItem.id === item.id
+  //           ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+  //           : cartItem
+  //       );
+  //     } else {
+  //       return [...prevCart, item];
+  //     }
+  //   });
+  // };
 
   const removeFromCart = id =>
     setCart(prevCart => prevCart.filter(item => item.id !== id));
@@ -41,10 +41,10 @@ const Shop = () => {
     <StyledShop>
       <StyledTitle>Your Cart ({totalItems})</StyledTitle>
       {cart.length === 0 ? (
-        <>
+        <div>
           <StyledImg src='./assets/images/illustration-empty-cart.svg' />
           <StyledContent>Your added items will appear here</StyledContent>
-        </>
+        </div>
       ) : (
         <StyledProductList>
           {cart.map(item => (

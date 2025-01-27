@@ -6,15 +6,7 @@ import Main from './components/main/Main';
 import Header from './components/header/Header';
 
 const App = () => {
-  const [sortType, setSortType] = useState('default');
-
-  const getSortFunctions = () => {
-    return {
-      price: (a, b) => a.price - b.price,
-      name: (a, b) => a.title.localeCompare(b.title),
-      default: () => 0
-    };
-  };
+  const [sortType, setSortType] = useState(0);
 
   const getSortFunction = sortType => {
     const sortFunctions = getSortFunctions();
@@ -37,6 +29,14 @@ const App = () => {
       <Shop />
     </div>
   );
+};
+
+const getSortFunctions = () => {
+  return {
+    0: () => 0,
+    1: (a, b) => a.price - b.price,
+    2: (a, b) => a.title.localeCompare(b.title)
+  };
 };
 
 export default App;

@@ -6,9 +6,9 @@ const Header = ({ setSortType }) => {
   return (
     <StyledHeader>
       <Title>DESSERTS</Title>
-      <Button onClick={() => setSortType('default')}>Default</Button>
-      <Button onClick={() => setSortType('name')}>Name</Button>
-      <Button onClick={() => setSortType('price')}>Price</Button>
+      <Button onClick={() => setSortType(0)}>Default</Button>
+      <Button onClick={() => setSortType(1)}>Name</Button>
+      <Button onClick={() => setSortType(2)}>Price</Button>
     </StyledHeader>
   );
 };
