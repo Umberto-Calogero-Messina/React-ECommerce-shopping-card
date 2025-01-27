@@ -1,6 +1,11 @@
-import { StyledButton } from './Button.styles';
-const Button = ({ onClick, children }) => {
-  return <StyledButton onClick={onClick}>{children}</StyledButton>;
+import { StyledButton } from './button.styles';
+
+const Button = ({ children, color, fontSize }) => {
+	return (
+		<StyledButton $colorButton={color} $fontSize={fontSize}>
+			{children}
+		</StyledButton>
+	);
 };
 
 export default Button;

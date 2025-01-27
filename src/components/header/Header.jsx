@@ -1,16 +1,11 @@
-import Button from '../button/Button';
-import Title from '../title/Title';
-import { StyledHeader } from './Header.styles';
-
-const Header = ({ setSortType }) => {
-  return (
-    <StyledHeader>
-      <Title>DESSERTS</Title>
-      <Button onClick={() => setSortType(0)}>Default</Button>
-      <Button onClick={() => setSortType(1)}>Name</Button>
-      <Button onClick={() => setSortType(2)}>Price</Button>
-    </StyledHeader>
-  );
+const Header = ({ setFilter }) => {
+	return (
+		<header>
+			<button onClick={() => setFilter(0)}>Default</button>
+			<button onClick={() => setFilter(1)}>Name</button>
+			<button onClick={() => setFilter(2)}>Price</button>
+		</header>
+	);
 };
 
 export default Header;
