@@ -3,7 +3,11 @@ import { PRODUCTS } from './constants/products';
 import { GlobalStyles } from './styles/GlobalStyles';
 import Header from './components/header/Header';
 
-import { StyleButtonImgActive, StyleButtonNumer, StyledButtonActive } from './components/card/Card.styles';
+import {
+  StyleButtonImgActive,
+  StyleButtonNumer,
+  StyledButtonActive,
+} from './components/card/Card.styles';
 
 const App = () => {
   const [filter, setFilter] = useState(0);
@@ -11,39 +15,16 @@ const App = () => {
 
   const filteredProducts = filterProducts(PRODUCTS, filter);
 
-  const incrementQuantity = productId => {
-    setCart(prevCart =>
-      prevCart.map(item => (item.id === productId ? { ...item, quantity: (item.quantity || 0) + 1 } : item))
-    );
-  };
-
-  const decrementQuantity = productId => {
-    setCart(prevCart =>
-      prevCart.map(item =>
-        item.id === productId ? { ...item, quantity: Math.max((item.quantity || 0) - 1, 0) } : item
-      )
-    );
-  };
-
-  const addToCart = product => {
-    setCart(prevCart => {
-      const existingProduct = prevCart.find(item => item.id === product.id);
-      if (existingProduct) {
-        return prevCart.map(item => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item));
-      }
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
-  };
-
   return (
     <>
       <GlobalStyles />
       <h1>Desserts</h1>
       <Header setFilter={setFilter} />
       <main>
-        {filteredProducts.map(product => {
-          const cartItem = cart.find(item => item.id === product.id);
-          const inCart = cartItem && cartItem.quantity > 0;
+        {filteredProducts.map((product) => {
+          const isInCart = cart.find(
+            (productInCart) => productInCart.id === product.id
+          );
 
           return (
             <div key={product.id}>
@@ -51,20 +32,22 @@ const App = () => {
               <h2>{product.name}</h2>
               <p>${product.price.toFixed(2)}</p>
 
-              {!inCart ? (
-                <button onClick={() => addToCart(product)}>Add To Cart</button>
+              {!isInCart ? (
+                <button onClick={() => addToCart(product, cart, setCart)}>
+                  Add To Cart
+                </button>
               ) : (
                 <StyledButtonActive>
                   <StyleButtonImgActive
-                    src='/assets/images/icon-decrement-quantity.svg'
-                    alt='Decrement Quantity'
-                    onClick={() => decrementQuantity(product.id)}
+                    src="/assets/images/icon-decrement-quantity.svg"
+                    alt="Decrement Quantity"
+                    onClick={() => decrementQuantity(product.id, cart, setCart)}
                   />
-                  <StyleButtonNumer>{cartItem.quantity}</StyleButtonNumer>
+                  <StyleButtonNumer>{isInCart.quantity}</StyleButtonNumer>
                   <StyleButtonImgActive
-                    src='/assets/images/icon-increment-quantity.svg'
-                    alt='Increment Quantity'
-                    onClick={() => incrementQuantity(product.id)}
+                    src="/assets/images/icon-increment-quantity.svg"
+                    alt="Increment Quantity"
+                    onClick={() => incrementQuantity(product.id, cart, setCart)}
                   />
                 </StyledButtonActive>
               )}
@@ -72,12 +55,14 @@ const App = () => {
           );
         })}
 
-        {cart.filter(product => product.quantity > 0).length === 0 && <h2>NO PRODUCTS</h2>}
+        {cart.filter((product) => product.quantity > 0).length === 0 && (
+          <h2>NO PRODUCTS</h2>
+        )}
 
         {cart.length > 0 &&
           cart
-            .filter(productInCart => productInCart.quantity > 0)
-            .map(productInCart => (
+            .filter((productInCart) => productInCart.quantity > 0)
+            .map((productInCart) => (
               <div key={productInCart.id}>
                 <h2>
                   {productInCart.quantity} {productInCart.name}
@@ -99,6 +84,38 @@ const filterProducts = (products, filter) => {
   if (filter === 2) {
     return sortedProducts.sort((a, b) => a.price - b.price);
   }
+};
+
+const incrementQuantity = (productId, cart, setCart) => {
+  const updatedCart = cart.map((item) => {
+    if (item.id === productId) {
+      item.quantity++;
+    }
+    return item;
+  });
+
+  setCart(updatedCart);
+};
+
+const decrementQuantity = (productId, cart, setCart) => {
+  const productToUpdate = cart.find((product) => product.id === productId);
+
+  if (productToUpdate && productToUpdate.quantity > 1) {
+    const updatedCart = cart.map((item) => {
+      if (item.id === productId) {
+        item.quantity--;
+      }
+      return item;
+    });
+    setCart(updatedCart);
+  } else {
+    const updatedCart = cart.filter((item) => item.id !== productId);
+    setCart(updatedCart);
+  }
+};
+
+const addToCart = (product, cart, setCart) => {
+  setCart([...cart, { ...product, quantity: 1 }]);
 };
 
 export default App;
