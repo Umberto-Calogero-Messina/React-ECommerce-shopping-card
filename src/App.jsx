@@ -100,7 +100,7 @@ const incrementQuantity = (productId, cart, setCart) => {
 const decrementQuantity = (productId, cart, setCart) => {
   const productToUpdate = cart.find((product) => product.id === productId);
 
-  if (productToUpdate && productToUpdate.quantity > 1) {
+  if (productToUpdate.quantity > 1) {
     const updatedCart = cart.map((item) => {
       if (item.id === productId) {
         item.quantity--;
