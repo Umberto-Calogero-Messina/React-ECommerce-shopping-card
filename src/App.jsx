@@ -1,26 +1,31 @@
 import { useState } from 'react';
-import { PRODUCTS } from './constants/products';
-import { GlobalStyles } from './styles/GlobalStyles';
 import Header from './components/header/Header';
 
-import {
-  StyleButtonImgActive,
-  StyleButtonNumer,
-  StyledButtonActive,
-} from './components/card/Card.styles';
+import Cards from './components/cards/Cards';
+import Main from './components/main/Main';
+import Shop from './components/shop/Shop';
 
 const App = () => {
   const [filter, setFilter] = useState(0);
   const [cart, setCart] = useState([]);
 
-  const filteredProducts = filterProducts(PRODUCTS, filter);
+  const removeFromCart = (productToRemove) => {
+    const updatedCart = cart.filter(
+      (product) => product.id !== productToRemove.id
+    );
+    setCart(updatedCart);
+  };
 
   return (
     <>
-      <GlobalStyles />
-      <h1>Desserts</h1>
       <Header setFilter={setFilter} />
-      <main>
+      <Main>
+        <Cards cart={cart} setCart={setCart} filter={filter} />
+        <Shop cart={cart} removeFromCart={removeFromCart} />{' '}
+        {/* Passa removeFromCart come prop */}
+      </Main>
+
+      {/* <main>
         {filteredProducts.map((product) => {
           const isInCart = cart.find(
             (productInCart) => productInCart.id === product.id
@@ -69,53 +74,9 @@ const App = () => {
                 </h2>
               </div>
             ))}
-      </main>
+      </main> */}
     </>
   );
-};
-
-const filterProducts = (products, filter) => {
-  const sortedProducts = [...products];
-  if (filter === 0) return sortedProducts;
-  if (filter === 1) {
-    return sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  if (filter === 2) {
-    return sortedProducts.sort((a, b) => a.price - b.price);
-  }
-};
-
-const incrementQuantity = (productId, cart, setCart) => {
-  const updatedCart = cart.map((item) => {
-    if (item.id === productId) {
-      item.quantity++;
-    }
-    return item;
-  });
-
-  setCart(updatedCart);
-};
-
-const decrementQuantity = (productId, cart, setCart) => {
-  const productToUpdate = cart.find((product) => product.id === productId);
-
-  if (productToUpdate.quantity > 1) {
-    const updatedCart = cart.map((item) => {
-      if (item.id === productId) {
-        item.quantity--;
-      }
-      return item;
-    });
-    setCart(updatedCart);
-  } else {
-    const updatedCart = cart.filter((item) => item.id !== productId);
-    setCart(updatedCart);
-  }
-};
-
-const addToCart = (product, cart, setCart) => {
-  setCart([...cart, { ...product, quantity: 1 }]);
 };
 
 export default App;
