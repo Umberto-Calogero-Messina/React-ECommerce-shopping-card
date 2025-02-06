@@ -51,6 +51,12 @@ const StyledPriceCount = styled.span`
   font-weight: 600;
 `;
 
+const StyledTotalPrice = styled.div`
+border-top:1px solid black;
+margin-top:30px;
+padding-top:15px;
+`;
+
 export {
   StyledShopBox,
   StyledTitle,
@@ -62,4 +68,5 @@ export {
   StyledCount,
   StyledPrice,
   StyledPriceCount,
+  StyledTotalPrice
 };
